@@ -66,6 +66,7 @@ INSTALLED_APPS = [
 
     'apps.resume',
     'apps.user',
+    'functional_tests',
 ]
 
 MIDDLEWARE = [
