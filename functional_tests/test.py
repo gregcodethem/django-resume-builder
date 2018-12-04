@@ -34,4 +34,6 @@ class FunctionalTest(StaticLiveServerTestCase):
         # User creates an account
         self.browser.get('http://127.0.0.1:8000/')
 
+        # User creates an account
+        
         # User clicks to create a new Resume
