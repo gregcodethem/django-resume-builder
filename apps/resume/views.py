@@ -10,17 +10,19 @@ from .models import ResumeItem, Resume
 def resume_list_view(request):
     """
     Handle a request to view a user's list of resumes.
-    """
+
     resumes = Resume.objects\
         .filter(user=request.user)
 
     return render(request, 'resume/resume_list.html', {
         'resumes': resumes
     })
+    """
+    pass
 
 
 @login_required
-def resume_create(request):
+def resume_create_view(request):
     """
     Handle a request to create a new resume.
     """
