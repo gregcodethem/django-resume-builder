@@ -1,7 +1,7 @@
 {% extends "resume/resume_base.html" %}
 
 {% comment %}
-Template for editing a resume.
+Template for editing the title of a resume.
 {% endcomment %}
 
 {% block styles %}
@@ -14,12 +14,12 @@ Template for editing a resume.
   </style>
 {% endblock %}
 
-{% block resume_header_text %}Edit resume{% endblock %}
+{% block resume_header_text %}Edit resume title{% endblock %}
 
 {% block resume_submit_button_text %}Edit{% endblock %}
 
 {% block resume_additional_buttons %}
     <button type="submit" name="delete" class="btn btn-danger delete-button">
-      Delete
+      Delete Resume
     </button>
 {% endblock %}

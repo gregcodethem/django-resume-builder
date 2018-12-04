@@ -39,7 +39,7 @@ def resume_create_view(request):
 
 
 @login_required
-def resume_edit_view(request, resume_id):
+def resume_rename(request, resume_id):
     """
     Add description here
     """
@@ -47,6 +47,7 @@ def resume_edit_view(request, resume_id):
         resume = Resume.objects\
             .filter(user=request.user)\
             .get(id=resume_id)
+
     except Resume.DoesNotExist:
         raise Http404
 
@@ -67,19 +68,23 @@ def resume_edit_view(request, resume_id):
 
     template_dict['form'] = form
 
-    return render(request, 'resume/resume_edit.html', template_dict)
+    return render(request, 'resume/resume_rename.html', template_dict)
 
 
 @login_required
-def resume_view(request):
+def resume_view(request, resume_id):
     """
     Handle a request to view a user's resume.
     """
-    resume_items = ResumeItem.objects\
+    resume = Resume.objects\
         .filter(user=request.user)\
+        .get(id=resume_id)
+    resume_items = ResumeItem.objects\
+        .filter(user=request.user, resume=resume)\
         .order_by('-start_date')
 
-    return render(request, 'resume/resume.html', {
+    return render(request, 'resume/resume_edit_items.html', {
+        'resume_title': resume.title,
         'resume_items': resume_items
     })
 

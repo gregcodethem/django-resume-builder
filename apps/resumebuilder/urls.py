@@ -27,11 +27,12 @@ urlpatterns = [
     url('^login/$', auth_views.LoginView.as_view(), name='login'),
     url('^logout/$', auth_views.LogoutView.as_view(), name='logout'),
 
-    url(r'^$', RedirectView.as_view(pattern_name='resume')),
+    url(r'^$', RedirectView.as_view(pattern_name='resume-list')),
 
     url(r'^resume-list/$', resume_views.resume_list_view, name='resume-list'),
-    url(r'^resume-list/resume/edit(\d+)/$', resume_views.resume_edit_view,
-        name='resume-edit'),
+    url(r'^resume-list/resume/rename/(\d+)/$',
+        resume_views.resume_rename,
+        name='resume-rename'),
     url(r'^resume-list/resume/create/$', resume_views.resume_create_view,
         name='resume-create'),
 
