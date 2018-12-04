@@ -10,15 +10,13 @@ from .models import ResumeItem, Resume
 def resume_list_view(request):
     """
     Handle a request to view a user's list of resumes.
-
+    """
     resumes = Resume.objects\
         .filter(user=request.user)
 
     return render(request, 'resume/resume_list.html', {
         'resumes': resumes
     })
-    """
-    pass
 
 
 @login_required
@@ -26,7 +24,50 @@ def resume_create_view(request):
     """
     Handle a request to create a new resume.
     """
-    pass
+    if request.method == 'POST':
+        form = ResumeForm(request.POST)
+        if form.is_valid():
+            new_resume = form.save(commit=False)
+            new_resume.user = request.user
+            new_resume.save()
+
+            return redirect(resume_edit_view, new_resume.id)
+    else:
+        form = ResumeForm()
+
+    return render(request, 'resume/resume_create.html', {'form': form})
+
+
+@login_required
+def resume_edit_view(request, resume_id):
+    """
+    Add description here
+    """
+    try:
+        resume = Resume.objects\
+            .filter(user=request.user)\
+            .get(id=resume_id)
+    except Resume.DoesNotExist:
+        raise Http404
+
+    template_dict = {}
+
+    if request.method == 'POST':
+        if 'delete' in request.POST:
+            resume.delete()
+            return redirect(resume_list_view)
+
+        form = ResumeForm(request.POST, instance=resume)
+        if form.is_valid():
+            form.save()
+            form = ResumeForm(instance=resume)
+            template_dict['message'] = 'Resume updated'
+    else:
+        form = ResumeForm(instance=resume)
+
+    template_dict['form'] = form
+
+    return render(request, 'resume/resume_edit.html', template_dict)
 
 
 @login_required
