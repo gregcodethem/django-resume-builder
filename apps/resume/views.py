@@ -2,8 +2,29 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, redirect
 
-from .forms import ResumeItemForm
-from .models import ResumeItem
+from .forms import ResumeItemForm, ResumeForm
+from .models import ResumeItem, Resume
+
+
+@login_required
+def resume_list_view(request):
+    """
+    Handle a request to view a user's list of resumes.
+    """
+    resumes = Resume.objects\
+        .filter(user=request.user)
+
+    return render(request, 'resume/resume_list.html', {
+        'resumes': resumes
+    })
+
+
+@login_required
+def resume_create(request):
+    """
+    Handle a request to create a new resume.
+    """
+    pass
 
 
 @login_required
