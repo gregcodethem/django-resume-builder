@@ -9,7 +9,7 @@ from .models import ResumeItem, Resume
 @login_required
 def resume_list_view(request):
     """
-    Handle a request to view a user's list of resumes.
+    Handles a request to view a user's list of resumes.
     """
     resumes = Resume.objects\
         .filter(user=request.user)
@@ -22,7 +22,7 @@ def resume_list_view(request):
 @login_required
 def resume_create_view(request):
     """
-    Handle a request to create a new resume.
+    Handles a request to create a new resume.
     """
     if request.method == 'POST':
         form = ResumeForm(request.POST)
@@ -39,9 +39,10 @@ def resume_create_view(request):
 
 
 @login_required
-def resume_rename(request, resume_id):
+def resume_rename_view(request, resume_id):
     """
-    Add description here
+    Handles a request to change the name of the resume.
+    :param resume_id: The database ID of the Resume to rename. 
     """
     try:
         resume = Resume.objects\
@@ -74,7 +75,8 @@ def resume_rename(request, resume_id):
 @login_required
 def resume_view(request, resume_id):
     """
-    Handle a request to view a user's resume.
+    Handle a request to view a particular user resume.
+    :param resume_id: The database ID of the Resume. 
     """
     resume = Resume.objects\
         .filter(user=request.user)\
@@ -83,7 +85,7 @@ def resume_view(request, resume_id):
         .filter(user=request.user, resume=resume)\
         .order_by('-start_date')
 
-    return render(request, 'resume/resume.html', {
+    return render(request, 'resume/individual_resume.html', {
         'resume': resume,
         'resume_items': resume_items
     })
@@ -93,6 +95,7 @@ def resume_view(request, resume_id):
 def resume_item_create_view(request, resume_id):
     """
     Handle a request to create a new resume item.
+    :param resume_id: The database ID of the associated Resume. 
     """
     try:
         resume = Resume.objects\
@@ -124,7 +127,7 @@ def resume_item_create_view(request, resume_id):
 def resume_item_edit_view(request, resume_id, resume_item_id):
     """
     Handle a request to edit a resume item.
-
+    :param resume_id: The database ID of the associated Resume. 
     :param resume_item_id: The database ID of the ResumeItem to edit.
     """
     try:
@@ -147,7 +150,7 @@ def resume_item_edit_view(request, resume_id, resume_item_id):
     if request.method == 'POST':
         if 'delete' in request.POST:
             resume_item.delete()
-            return redirect(resume_view)
+            return redirect(resume_view, resume_id)
 
         form = ResumeItemForm(request.POST, instance=resume_item)
         if form.is_valid():

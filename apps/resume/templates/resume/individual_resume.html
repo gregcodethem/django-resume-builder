@@ -56,7 +56,6 @@ Template for viewing a resume.
       <div class="header-container">
         <h1>{{ request.user.first_name }} {{ request.user.last_name }}</h1>
         <h3>{{ request.user.email }}</h3>
-        <h3>{{ resume.title }}</h3>
       </div>
     </div>
 
@@ -66,7 +65,7 @@ Template for viewing a resume.
         <h4>{{ resume_item.company }}</h4>
         <h4>{{ resume_item.start_date | date:"M Y"}} - {% if resume_item.end_date %}{{ resume_item.end_date | date:"M Y"}}{% else %}Present{% endif %}</h4>
         {% if resume_item.description %}<p>{{ resume_item.description }}</p>{% endif %}
-        <a class="btn btn-primary" href="/resume/{{ resume.id}}/item/edit/{{ resume_item.id }}/">Edit</a>
+        <a class="btn btn-primary" href="/resume/{{ resume.id }}/item/edit/{{ resume_item.id }}/">Edit</a>
       </section>
     {% endfor %}
 

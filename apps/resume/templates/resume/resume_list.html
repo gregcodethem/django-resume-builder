@@ -1,7 +1,7 @@
 {% extends "base_logged_in.html" %}
 
 {% comment %}
-Template for viewing a resume.
+Template for viewing a resume. Note this is the main page for viewing the list of the different resumes.
 {% endcomment %}
 
 {% block styles %}
@@ -71,11 +71,11 @@ Template for viewing a resume.
       <section class="resume-item">
         <h3>{{ resume.title }}</h3>
 
-        <a class="btn btn-left btn-primary" href="/resume-list/resume/{{ resume.id }}/">Edit</a>
-        <a class="btn btn-right btn-primary" href="/resume-list/resume/{{ resume.id }}/rename/">Rename</a>
+        <a class="btn btn-left btn-primary" href="/resume/{{ resume.id }}/">Edit</a>
+        <a class="btn btn-right btn-primary" href="/resume/{{ resume.id }}/rename/">Rename</a>
       </section>
     {% endfor %}
 
-    <a class="btn btn-success" href="/resume-list/resume/create/">Add New Resume</a>
+    <a class="btn btn-success" href="/resume/create/">Add New Resume</a>
   </div>
 {% endblock %}

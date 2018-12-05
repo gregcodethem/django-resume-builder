@@ -27,20 +27,14 @@ urlpatterns = [
     url('^login/$', auth_views.LoginView.as_view(), name='login'),
     url('^logout/$', auth_views.LogoutView.as_view(), name='logout'),
 
-    url(r'^$', RedirectView.as_view(pattern_name='resume-list')),
-
-    url(r'^resume-list/$', resume_views.resume_list_view, name='resume-list'),
-    url(r'^resume-list/resume/(\d+)/rename/$',
-        resume_views.resume_rename,
+    url(r'^$', resume_views.resume_list_view, name='resume-list'),
+    url(r'^resume/(\d+)/rename/$', resume_views.resume_rename_view,
         name='resume-rename'),
-    url(r'^resume-list/resume/create/$', resume_views.resume_create_view,
+    url(r'^resume/create/$', resume_views.resume_create_view,
         name='resume-create'),
 
-    url(r'^resume-list/resume/(\d+)/$',
-        resume_views.resume_view,
+    url(r'^resume/(\d+)/$', resume_views.resume_view,
         name='resume'),
-
-    #url(r'^resume/$', resume_views.resume_view, name='resume'),
     url(r'^resume/(\d+)/item/edit/(\d+)/$', resume_views.resume_item_edit_view,
         name='resume-item-edit'),
     url(r'^resume/(\d+)/item/create/$', resume_views.resume_item_create_view,
