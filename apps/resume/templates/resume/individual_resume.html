@@ -47,14 +47,27 @@ Template for viewing a resume.
       margin-top: 24px;
       margin-bottom: 24px;
     }
+
+    div.title-container {
+      padding-top: 0px;
+      padding-bottom: 10px;
+    }
   </style>
 {% endblock %}
 
 {% block content %}
   <div class="container content-section resume-container">
     <div class="header-center-container">
+      <div class="title-container">
+        <h2>{{ resume.title }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="container content-section resume-container">
+    <div class="header-center-container">
       <div class="header-container">
-        <h1>{{ request.user.first_name }} {{ request.user.last_name }}</h1>
+        <h2>{{ request.user.first_name }} {{ request.user.last_name }}</h2>
         <h3>{{ request.user.email }}</h3>
       </div>
     </div>

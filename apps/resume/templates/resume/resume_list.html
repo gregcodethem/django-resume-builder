@@ -50,6 +50,12 @@ Template for viewing a resume. Note this is the main page for viewing the list o
       right: 0;
       top: 0;
     }
+    section.resume-item > div.number-of-items {
+
+      position: absolute;
+      right: 200px;
+      top: 4px;
+    }
 
     div.resume-container > a.btn {
       margin-top: 24px;
@@ -68,9 +74,12 @@ Template for viewing a resume. Note this is the main page for viewing the list o
     </div>
 
     {% for resume in resumes %}
+      
       <section class="resume-item">
-        <h3>{{ resume.title }}</h3>
-
+        <h3>{{ resume.title }} </h3>
+        <div class="number-of-items">
+          <p>{{ resume.number_of_items }} item{{resume.number_of_items | pluralize }}</p>
+        </div>
         <a class="btn btn-left btn-primary" href="/resume/{{ resume.id }}/">Edit</a>
         <a class="btn btn-right btn-primary" href="/resume/{{ resume.id }}/rename/">Rename</a>
       </section>

@@ -9,6 +9,7 @@ class Resume(models.Model):
     user = models.ForeignKey('auth.User')
 
     title = models.CharField(max_length=127)
+    number_of_items = models.IntegerField(default=0)
 
     def __unicode__(self):
         return "{}: {}".format(self.user.username,

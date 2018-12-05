@@ -14,6 +14,14 @@ def resume_list_view(request):
     resumes = Resume.objects\
         .filter(user=request.user)
 
+    # Update the number of items for each resume in the database.
+    for resume in resumes:
+        number_of_items = ResumeItem.objects\
+            .filter(user=request.user, resume=resume)\
+            .count()
+        resume.number_of_items = number_of_items
+        resume.save()
+
     return render(request, 'resume/resume_list.html', {
         'resumes': resumes
     })
@@ -76,7 +84,7 @@ def resume_rename_view(request, resume_id):
 def resume_view(request, resume_id):
     """
     Handle a request to view a particular user resume.
-    :param resume_id: The database ID of the Resume. 
+    :param resume_id: The database ID of the Resume.
     """
     resume = Resume.objects\
         .filter(user=request.user)\
