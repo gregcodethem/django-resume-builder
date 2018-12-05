@@ -37,7 +37,15 @@ Template for viewing a resume.
       position: relative;
     }
 
-    section.resume-item > a.btn {
+    section.resume-item > a.btn-left {
+
+      position: absolute;
+      right: 100px;
+      top: 0;
+    }
+
+    section.resume-item > a.btn-right {
+      
       position: absolute;
       right: 0;
       top: 0;
@@ -63,8 +71,8 @@ Template for viewing a resume.
       <section class="resume-item">
         <h3>{{ resume.title }}</h3>
 
-        <a class="btn btn-primary" href="/resume-list/resume/edit/{{ resume_list.id }}/">Edit</a>
-        <a class="btn btn-primary" href="/resume-list/resume/edit/{{ resume_list.id }}/">Rename</a>
+        <a class="btn btn-left btn-primary" href="/resume-list/resume/{{ resume.id }}/">Edit</a>
+        <a class="btn btn-right btn-primary" href="/resume-list/resume/{{ resume.id }}/rename/">Rename</a>
       </section>
     {% endfor %}
 

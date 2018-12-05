@@ -31,7 +31,7 @@ def resume_create_view(request):
             new_resume.user = request.user
             new_resume.save()
 
-            return redirect(resume_edit_view, new_resume.id)
+            return redirect(resume_view, new_resume.id)
     else:
         form = ResumeForm()
 
@@ -83,38 +83,58 @@ def resume_view(request, resume_id):
         .filter(user=request.user, resume=resume)\
         .order_by('-start_date')
 
-    return render(request, 'resume/resume_edit_items.html', {
-        'resume_title': resume.title,
+    return render(request, 'resume/resume.html', {
+        'resume': resume,
         'resume_items': resume_items
     })
 
 
 @login_required
-def resume_item_create_view(request):
+def resume_item_create_view(request, resume_id):
     """
     Handle a request to create a new resume item.
     """
+    try:
+        resume = Resume.objects\
+            .filter(user=request.user)\
+            .get(id=resume_id)
+
+    except Resume.DoesNotExist:
+        raise Http404
+
     if request.method == 'POST':
         form = ResumeItemForm(request.POST)
         if form.is_valid():
             new_resume_item = form.save(commit=False)
             new_resume_item.user = request.user
+            new_resume_item.resume = resume
             new_resume_item.save()
 
-            return redirect(resume_item_edit_view, new_resume_item.id)
+            return redirect(resume_item_edit_view,
+                            resume.id,
+                            new_resume_item.id)
     else:
         form = ResumeItemForm()
 
-    return render(request, 'resume/resume_item_create.html', {'form': form})
+    return render(request, 'resume/resume_item_create.html',
+                  {'form': form, 'resume': resume})
 
 
 @login_required
-def resume_item_edit_view(request, resume_item_id):
+def resume_item_edit_view(request, resume_id, resume_item_id):
     """
     Handle a request to edit a resume item.
 
     :param resume_item_id: The database ID of the ResumeItem to edit.
     """
+    try:
+        resume = Resume.objects\
+            .filter(user=request.user)\
+            .get(id=resume_id)
+
+    except Resume.DoesNotExist:
+        raise Http404
+
     try:
         resume_item = ResumeItem.objects\
             .filter(user=request.user)\
@@ -138,5 +158,6 @@ def resume_item_edit_view(request, resume_item_id):
         form = ResumeItemForm(instance=resume_item)
 
     template_dict['form'] = form
+    template_dict['resume'] = resume
 
     return render(request, 'resume/resume_item_edit.html', template_dict)
